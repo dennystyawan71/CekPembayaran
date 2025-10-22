@@ -4,105 +4,164 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cek Pembayaran Siswa</title>
+
   <style>
+    /* ---------- GLOBAL STYLE ---------- */
     :root {
-      --accent: #1e90ff;
+      --accent: #007bff;
+      --text: #222;
       --muted: #666;
     }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      margin: 24px;
-      color: #222;
-      background: #f7f9fc;
+      margin: 0;
+      font-family: "Poppins", "Inter", system-ui, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-attachment: fixed;
+      overflow-x: hidden;
     }
+
+    /* ---------- CARD CONTAINER ---------- */
     .container {
-      max-width: 760px;
-      margin: 0 auto;
+      width: 95%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      color: #fff;
     }
+
     h1 {
-      margin: 0 0 12px;
+      margin: 0 0 8px;
+      font-size: 1.8rem;
       font-weight: 600;
+      color: #fff;
     }
+
     p.lead {
-      margin: 0 0 20px;
-      color: var(--muted);
+      margin: 0 0 24px;
+      color: #f1f1f1;
+      font-size: 0.95rem;
     }
-    .card {
-      border: 1px solid #e6e6e6;
-      border-radius: 10px;
-      padding: 18px;
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03);
-    }
+
+    /* ---------- INPUT & BUTTONS ---------- */
     .row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
     }
+
     input[type="text"] {
       flex: 1;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      min-width: 160px;
+      min-width: 180px;
+      padding: 12px 14px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
+
     button {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+    }
+
+    button.primary {
       background: var(--accent);
       color: #fff;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
     }
+
+    button.primary:hover {
+      background: #0062cc;
+    }
+
     button.secondary {
-      background: #f3f6fb;
-      color: #074a8a;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
     }
+
+    /* ---------- HASIL / TABEL ---------- */
     #hasil {
-      margin-top: 16px;
+      margin-top: 20px;
+      text-align: left;
+      color: #222;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
     }
+
     th, td {
-      padding: 10px;
-      border: 1px solid #f0f0f0;
-      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
+
     th {
-      background: #fafafa;
-      color: #333;
-      width: 40%;
+      background: rgba(0, 123, 255, 0.15);
+      font-weight: 600;
+      color: #004d99;
+      width: 45%;
     }
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-    }
+
+    tr:last-child td { border-bottom: none; }
+
     .error {
-      color: #b00020;
+      color: #ff5b5b;
       font-weight: 500;
+      margin-top: 10px;
+      text-align: center;
     }
+
     .spinner {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 3px solid rgba(0, 0, 0, 0.08);
-      border-top-color: var(--accent);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
       border-radius: 50%;
-      animation: spin 0.9s linear infinite;
+      animation: spin 0.8s linear infinite;
       vertical-align: middle;
+      margin-right: 6px;
     }
+
     @keyframes spin { to { transform: rotate(360deg); } }
-    .hint {
+    @keyframes fadeIn { from {opacity:0; transform:translateY(5px);} to {opacity:1; transform:translateY(0);} }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      margin-top: 18px;
       font-size: 13px;
-      color: #666;
-      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.8);
     }
+
+    /* ---------- RESPONSIVE ---------- */
     @media (max-width: 600px) {
-      .row { flex-direction: column; align-items: stretch; }
+      .row { flex-direction: column; }
       button { width: 100%; }
     }
   </style>
@@ -110,118 +169,61 @@
 
 <body>
   <div class="container">
-    <h1>Cek Pembayaran</h1>
-    <p class="lead">
-      Masukkan <strong>NISN</strong> atau <strong>Nama</strong>, lalu klik "Cek".
-    </p>
+    <h1>💳 Cek Pembayaran</h1>
+    <p class="lead">Masukkan <b>NISN</b> atau <b>Nama</b>, lalu klik “Cek”.</p>
 
-    <div class="card">
-      <div class="row">
-        <input id="q" type="text" placeholder="Masukkan NISN atau Nama (Salah Satu Saja)" />
-        <button id="btn" onclick="cek()">Cek</button>
-        <button class="secondary" onclick="resetAll()">Reset</button>
-      </div>
-
-      <div id="hasil" aria-live="polite"></div>
-
-      <p class="hint">
-        <strong>Dibuat Oleh:</strong> Denny Styawan, S.Kom
-      </p>
+    <div class="row">
+      <input id="q" type="text" placeholder="Masukkan NISN atau Nama" />
+      <button class="primary" onclick="cek()">Cek</button>
+      <button class="secondary" onclick="resetAll()">Reset</button>
     </div>
+
+    <div id="hasil" aria-live="polite"></div>
+
+    <p class="footer">Dibuat oleh <b>Denny Styawan, S.Kom</b> • 2025</p>
   </div>
 
   <script>
-    /********* CONFIG *********/
     const API_URL = "https://script.google.com/macros/s/AKfycbxPdZcbzgwjYXkK4IAq-MRCyhYZ6TWlN-p0rdRSklB80pTCDJXSXK-jjuha4lgkUNq0Eg/exec";
     const FETCH_TIMEOUT = 12000;
 
-    /********* UTIL *********/
-    function el(id) { return document.getElementById(id); }
-
-    function fmtCurrency(x) {
-      if (x === null || x === undefined || x === "") return "-";
-      const num = Number(String(x).replace(/[^0-9\-\.\,]/g, '').replace(/,/g, ''));
-      if (isNaN(num)) return x;
-      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(num);
+    function el(id){return document.getElementById(id);}
+    function escapeHtml(str){return str?str.replace(/[&<>"'=\/]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','=':'&#x3D;'}[s])):'';}
+    function fmtCurrency(x){if(!x)return'-';const n=Number(String(x).replace(/[^0-9.-]/g,''));return isNaN(n)?x:new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'}).format(n);}
+    
+    function showLoading(){el('hasil').innerHTML='<div class="muted"><span class="spinner"></span> Mencari data...</div>'; }
+    function showError(msg){el('hasil').innerHTML=`<p class="error">⚠ ${escapeHtml(msg)}</p>`;}
+    
+    function renderTable(d){
+      el('hasil').innerHTML=`
+      <table>
+        <tr><th>Nama</th><td>${escapeHtml(d.Nama||d.nama||'-')}</td></tr>
+        <tr><th>NISN</th><td>${escapeHtml(d.NISN||d.nisn||'-')}</td></tr>
+        <tr><th>Tunggakan Baju</th><td>${fmtCurrency(d.Tunggakan||d.tunggakan||'-')}</td></tr>
+        <tr><th>Sudah Dibayar</th><td>${fmtCurrency(d["Sudah Bayar"]||d.sudah||'-')}</td></tr>
+        <tr><th>Sisa Tunggakan</th><td>${fmtCurrency(d["Sisa Tunggakan"]||d.sisa||'-')}</td></tr>
+      </table>`;
     }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/[&<>"'=\/]/g, function(s) {
-        return ({
-          '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','=':'&#x3D;'
-        })[s];
-      });
-    }
-
-    function showLoading() {
-      el('hasil').innerHTML = '<div class="muted"><span class="spinner"></span> Mencari data...</div>';
-    }
-
-    function showError(msg) {
-      el('hasil').innerHTML = `<p class="error">⚠ ${escapeHtml(msg)}</p>`;
-    }
-
-    function renderTable(data) {
-      const nama = data.Nama || data.nama || '-';
-      const nisn = data.NISN || data.nisn || '-';
-      const tunggakan = data.Tunggakan || data.tunggakan || '-';
-      const sudah = data["Sudah Bayar"] || data.sudah || '-';
-      const sisa = data["Sisa Tunggakan"] || data.sisa || '-';
-
-      el('hasil').innerHTML = `
-        <table>
-          <tr><th>Nama</th><td>${escapeHtml(nama)}</td></tr>
-          <tr><th>NISN</th><td>${escapeHtml(nisn)}</td></tr>
-          <tr><th>Tunggakan Baju</th><td>${fmtCurrency(tunggakan)}</td></tr>
-          <tr><th>Sudah Dibayar</th><td>${fmtCurrency(sudah)}</td></tr>
-          <tr><th>Sisa Tunggakan</th><td>${fmtCurrency(sisa)}</td></tr>
-        </table>
-      `;
-    }
-
-    async function cek() {
-      const q = el('q').value.trim();
-      if (!q) { showError('Silakan masukkan NISN atau Nama.'); return; }
-
+    async function cek(){
+      const q=el('q').value.trim();
+      if(!q){showError('Silakan masukkan NISN atau Nama.');return;}
       showLoading();
-
-      try {
-        const url = `${API_URL}?nisn=${encodeURIComponent(q)}`;
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
-
-        const res = await fetch(url, { method: 'GET', signal: controller.signal });
+      try{
+        const controller=new AbortController();
+        const timer=setTimeout(()=>controller.abort(),FETCH_TIMEOUT);
+        const res=await fetch(`${API_URL}?nisn=${encodeURIComponent(q)}`,{signal:controller.signal});
         clearTimeout(timer);
-
-        if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
-        const data = await res.json();
-
-        if (data.status === "error") {
-          showError(data.message || "Data tidak ditemukan");
-          return;
-        }
-
+        if(!res.ok)throw new Error(`HTTP ${res.status}`);
+        const data=await res.json();
+        if(data.status==="error")return showError(data.message||"Data tidak ditemukan");
         renderTable(data);
-      } catch (err) {
-        console.error(err);
-        showError('Gagal mengambil data: ' + err.message);
-      }
+      }catch(err){showError('Gagal mengambil data: '+err.message);}
     }
 
-    function resetAll() {
-      el('q').value = '';
-      el('hasil').innerHTML = '';
-      el('q').focus();
-    }
-
-    // Enter to submit
-    el('q').addEventListener('keydown', e => {
-      if (e.key === 'Enter') cek();
-    });
-
-    // Fokus input saat load
-    window.addEventListener('load', () => el('q').focus());
+    function resetAll(){el('q').value='';el('hasil').innerHTML='';el('q').focus();}
+    el('q').addEventListener('keydown',e=>{if(e.key==='Enter')cek();});
+    window.addEventListener('load',()=>el('q').focus());
   </script>
 </body>
 </html>
